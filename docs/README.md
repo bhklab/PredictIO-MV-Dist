@@ -1,6 +1,6 @@
 # Distributed multivariable predictive modelling for Immuno-Oncology response
 
-**Authors:** [Farnoosh Abbas Aghababazadeh](https://github.com/RibaA), Kewei Ni
+**Authors:** [Farnoosh Abbas Aghababazadeh](https://github.com/RibaA), [Kewei Ni](https://github.com/Nicole9801)
 
 **Contact:** [bhklab.farnooshabbasaghababazadeh@gmail.com](mailto:bhklab.farnooshabbasaghababazadeh@gmail.com)
 
