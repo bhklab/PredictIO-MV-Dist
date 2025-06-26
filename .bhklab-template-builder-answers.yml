@@ -1,0 +1,16 @@
+# Changes here will be overwritten by Copier
+_commit: v0.14.1
+_src_path: gh:bhklab/bhklab-project-template
+additional_authors_raw: Kewei Ni
+author_email: bhklab.farnooshabbasaghababazadeh@gmail.com
+author_full_name: Farnoosh Abbas Aghababazadeh
+github_username: RibaA
+has_additional_authors: true
+project_description: Distributed multivariable predictive modeling framework for Immuno-Oncology
+    (IO) response prediction, enabling reproducible analysis across centers without
+    sharing patient-level data.
+project_name: Distributed multivariable predictive modelling for Immuno-Oncology response
+project_slug: predictio-mv-dist
+publish_to_github: false
+python_version: '3.12'
+repo_location: bhklab
