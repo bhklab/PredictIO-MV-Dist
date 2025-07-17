@@ -1,11 +1,24 @@
-####### Utility - Function to compute gene signature scores ########
-
+# -----------------------------------------------------------
+# Gene Signature Scoring Utility Script
+# This script defines a utility function to compute gene signature
+# scores for input expression data using various scoring methods.
+#
+#   - Supports GSVA, ssGSEA, and weighted-mean methods
+#   - Takes expression matrix and signature gene sets as input
+#   - Returns a matrix of signature scores per sample
+# -----------------------------------------------------------
+##############################################################
+## Load libraries
+##############################################################
 library(PredictioR)
 library(MultiAssayExperiment)
 library(reticulate)
 library(dplyr)
 library(GSVA)
 
+##############################################################
+## Define a function to compute gene signature scores
+##############################################################
 compute_gene_signature_scores <- function(expr, signature, signature_info, study.icb) {
 
     geneSig.score <- lapply(1:length(signature), function(i){
