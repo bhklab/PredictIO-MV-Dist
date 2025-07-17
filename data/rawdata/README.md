@@ -30,6 +30,22 @@ These files are used as node-level input for multivariable modeling and feature 
 
 ---
 
+### Private Validation datasets
+
+In addition to the public datasets, several **private datasets** were used exclusively for **external validation** of the final global model. These datasets are not publicly available but are described in published studies. The table below summarizes these datasets:
+
+| Dataset Name     | PMID                              | Access        |
+|------------------|------------------------------------------|-------------|
+| Hartwig     | 31645765  | [Data access required for NCT02925234 (Hartwig Medical Foundation)](https://www.hartwigmedicalfoundation.nl/en/data/database/)    |
+| IMmotion150 | 29867230      | [EGAD00001004183](https://ega-archive.org/datasets/EGAD00001004183)    |
+| INSPIRE     | 30867072 | 33456789    | [EGAS00001003280](https://ega-archive.org/studies/EGAS00001003280) |
+| OAK         | 27979383 | 36789012    | [EGAC00001002120](https://ega-archive.org/dacs/EGAC00001002120) |
+| POPLAR      | 26970723 | 36789012    | [EGAC00001002120](https://ega-archive.org/dacs/EGAC00001002120) |
+
+ **Note:** Access to these datasets may require collaboration agreements or institutional permissions. 
+
+---
+
 ### Signature Sets: Curated Immune/TME Gene Signatures
 
 This pipeline applies a curated compendium of RNA-based gene expression signatures relevant to the tumor microenvironment (TME), immune responsiveness, and treatment resistance, used as **predictors or covariates** in distributed multivariable models.
