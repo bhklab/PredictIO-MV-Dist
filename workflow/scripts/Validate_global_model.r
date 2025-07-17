@@ -35,10 +35,8 @@ dir_out <- 'data/results/validation'
 global_model <- xgb.load(file.path(dir_model_in, 'global_xgb_model.model'))
 
 # load data and computed signature score 
-data_files <- list.files(dir_data_in, pattern = "^testData.*\\.rda$", full.names = TRUE) # dat
-
-## I renamed files by removing 'sig_score' and keep e.g., 'testDataHartwig_Bladder.rda', other wise in line 218, data.files[i] is not necessarily the same as score.files[i]!!
-score_files <- list.files(dir_sig_in, pattern = "^testData.*\\.rda$", full.names = TRUE) # dat$signatureData$signature
+data_files <- list.files(dir_data_in, pattern = "^testData.*\\.rda$", full.names = TRUE) 
+score_files <- list.files(dir_sig_in, pattern = "^testData.*\\.rda$", full.names = TRUE) 
 
 
 figure_titles <- c(
@@ -229,7 +227,4 @@ auc_df <- bind_rows(lapply(all_aucs, function(res) {
             res$PredictIOAUC)
   )
 }))
-
-
-### COMMENT: The test dat aand local model may have some changes in computed signature score. This for loop is not working without changes that I added. How was that computed before?
 
