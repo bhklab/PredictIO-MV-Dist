@@ -42,8 +42,11 @@ Available sources include:
 
 Each signature is:
 - Annotated with source publication
-- Categorized (e.g., IO-sensitive, IO-resistant, TME, sex-associated)
+- Categorized (e.g., IO-sensitive, IO-resistant, TME)
 - Scored using GSVA, ssGSEA, or other enrichment methods prior to regression modeling
+
+ **Note:**  
+ A filtered subset of these signatures, selected based on [Distributed univariable predictive modelling for Immuno-Oncology response](https://github.com/bhklab/PredictIO-UV-Dist), is used as input for the multivariable modeling step. This ensures that only features with predictive relevance across multiple cohorts are included.
 
 ---
 
@@ -52,7 +55,7 @@ Each signature is:
 Raw datasets and signature sets were selected based on:
 
 - Availability of pre-treatment RNA-seq data
-- Sufficient clinical annotation for multivariable modeling (e.g., response, survival, age, sex)
+- Sufficient clinical annotation for multivariable modeling (e.g., response, survival)
 - Sample size per cohort 
 - Relevance to immune checkpoint blockade (ICB) therapy
 
