@@ -1,22 +1,20 @@
 # -----------------------------------------------------------
 # Distributed XGBoost Training Script (via Spark)
-# This script trains an XGBoost classifier on gene expression data
-# using a distributed Spark backend for scalability.
+# This script trains XGBoost classifiers on gene expression datasets
+# using Spark for distributed execution.
 #
-#   - Loads preprocessed training local datasets  
-#   - Initializes Spark session and configures distributed training
-#   - Trains an XGBoost model using Spark MLlib integration
-#   - Saves trained model and evaluation metrics to output directory
-#
+#   - Loads preprocessed local training datasets (CSV)
+#   - Sets up Spark session with Hadoop environment (Windows)
+#   - Performs XGBoost training with grid search per dataset
+#   - Saves best model, parameters, metrics, and feature importance
+#   - Converts models to JSON for interoperability
 # -----------------------------------------------------------
-########################################################
-# SparkR and XGBoost Setup Script (Windows)
-# This script configures Spark and Hadoop paths,
-# loads required libraries, and initializes a Spark session.
-########################################################
+#############################################################
+# Setup: Load Libraries and Initialize Spark
+#############################################################
 # Set environment variables
-Sys.setenv(SPARK_HOME = "C:/Users/farno/spark-3.2.1-bin-hadoop3.2")
-Sys.setenv(HADOOP_HOME = "C:/Users/farno/spark-3.2.1-bin-hadoop3.2")
+Sys.setenv(SPARK_HOME = "~/spark-3.2.1-bin-hadoop3.2")
+Sys.setenv(HADOOP_HOME = "~/spark-3.2.1-bin-hadoop3.2")
 
 # Add SparkR libraries to .libPaths
 .libPaths(c(file.path(Sys.getenv("SPARK_HOME"), "R", "lib"), .libPaths()))
@@ -38,11 +36,11 @@ sparkR.session(
 ###########################################################
 ## Set up working directory 
 ###########################################################
-dir_in <- 'data/procdata' #  "Training_set/"
-dir_out <- 'data/results/local'   # "Local_model/"
+dir_in <- 'data/procdata' 
+dir_out <- 'data/results/local'   
 
 ###########################################################
-# Load data file and train model
+# Load processed data
 ###########################################################
 data_files <- list.files(path = dir_in, pattern = "*.csv", full.names = TRUE)
 
@@ -57,7 +55,7 @@ hyperparam_grid <- expand.grid(
 )
 
 #################################################################################################
-# Train XGBoost using grid search and save the best model, hyperparameters, and training metrics
+# XGBoost tTraining function
 #################################################################################################
 
 train_xgboost_model <- function(file_path, seed = 135) {
@@ -72,13 +70,12 @@ train_xgboost_model <- function(file_path, seed = 135) {
     library(pROC)
     })
 
-  start_time <- Sys.time()  #
+  start_time <- Sys.time()  
 
   set.seed(seed)
   
   data_name <- tools::file_path_sans_ext(basename(file_path))
 
-  # Load data as a Spark DataFrame
   rdf <- read.df(file_path, source = "csv", header = TRUE, inferSchema = "true")
   local_df <- collect(rdf) 
 
@@ -163,7 +160,7 @@ train_xgboost_model <- function(file_path, seed = 135) {
 }
 
 #############################################################
-## Train model across each local data
+## Distributed training via Spark
 #############################################################
 results <- spark.lapply(seq_along(data_files), function(i) {
   train_xgboost_model(data_files[[i]], seed = 135 + i)
@@ -174,7 +171,7 @@ results <- spark.lapply(seq_along(data_files), function(i) {
 sparkR.session.stop()
 
 #############################################################
-# Convert the saved XGBoost models to JSON format
+# Convert trained models to JSON
 #############################################################
 local_model_files <- list.files(path = dir_out, pattern = "XGB_train_set.*\\.rds", full.names = TRUE)
 
