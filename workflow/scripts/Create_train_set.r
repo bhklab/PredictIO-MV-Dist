@@ -7,7 +7,6 @@
 #   - Calculates signature scores per sample (e.g., GSVA, ssGSEA, weighted-mean scoring)
 #   - Identifies intersecting features across datasets
 #   - Builds training sets per study based on shared features
-#
 # -----------------------------------------------------------
 ########################################################
 ## Load Libraries
@@ -21,9 +20,8 @@ library(pROC)
 library(stringr)
 library(readr)
 
-# load gene signature score function
+# Load gene signature score function
 source("workflow/scripts/Compute_GeneSigScore.r")
-
 ###########################################################
 ## Set up working directory 
 ###########################################################
@@ -37,8 +35,6 @@ dir_out <- 'data/procdata'
 file_list <- list.files(path = dir_in, pattern = "\\.rda$", full.names = TRUE)
 selected_signatures <- scan(file.path(dir_in, 'selected_signatures.txt'), what = character(), sep = "\n")
 
-# load(file_list[[2]])
-
 Prefiltered_TrainSet <- list()
 study.icb <- list()
 # Loop through each file to Calculate gene signature score 
@@ -49,14 +45,12 @@ for (file in file_list[1:3]) {
         response = colData(dat$ICB)$response)
     patient_response <- na.omit(patient_response)
     valid_patients <- patient_response$patientid
-    # Skip if valid patient count is less than 25
+
     if (length(valid_patients) < 25) {
         next
     }
 
-    # Keep only the samples (columns) that have valid response data
     dat$ICB <- dat$ICB[, colnames(assay(dat$ICB)) %in% valid_patients]
-    # Update colData to remove NA response patients
     colData(dat$ICB) <- colData(dat$ICB)[colData(dat$ICB)$patientid %in% valid_patients, ]
 
     # Compute gene signature score
@@ -82,16 +76,16 @@ for (file in file_list[1:3]) {
     study.icb[[file]] <- colnames(TrainSet)
   }
 
-# Find common gene signature across selected datasets
+###########################################################
+## Find common gene signature across selected datasets
+###########################################################
 common_var <- Reduce(intersect, study.icb)
-#writeLines(common_var, "common_features.txt")
 
 # Create and save training set
 for (file in names(Prefiltered_TrainSet)) {
   filtered_scores <- Prefiltered_TrainSet[[file]] %>% select(all_of(common_var))
   output_file <- file.path(dir_out, paste0("train_set_", tools::file_path_sans_ext(basename(file)), "_filtered.csv"))
   write_csv(filtered_scores, output_file)
- # save(train_dat, file=file.path(dir_out, paste0("train_set_", study.name, ".rda")))
 } 
 
 ################################################################################
@@ -104,8 +98,3 @@ all_colnames <- lapply(train_set, function(file) {
   num_col = ncol(data)
   column_names = colnames(data)
 })
-
-
-## Questions:(1) what is train_dat? I couldn't find that. Feel free to remove
-## Questions: (2) what is load(file_list[[2]])? 
-## 
