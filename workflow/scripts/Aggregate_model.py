@@ -13,9 +13,9 @@ import json
 import xgboost as xgb
 import glob
 
-# -----------------------------------------------------------
+############################################################
 # Utility functions
-# -----------------------------------------------------------
+############################################################
 def get_tree_nums(xgb_model_json):
     model_data = json.loads(xgb_model_json)
     num_trees = int(model_data["learner"]["gradient_booster"]["model"]["gbtree_model_param"]["num_trees"])
@@ -89,13 +89,13 @@ def aggregate_xgb_models(local_model_files, global_model_path_json, global_model
 ## Set up working directory 
 ###########################################################
 
-local_model_dir = "Local_model/Local_model_json/"
+local_model_dir = "data/results/local/local_json/"
 local_model_files = glob.glob(local_model_dir + "XGB_train_set_*.json") 
 if not local_model_files:
     raise FileNotFoundError("No local model JSON files found.")
 
-global_model_path_json = "Global_model/global_xgb_model.json"
-global_model_path = "Global_model/global_xgb_model.model"
+global_model_path_json = "data/results/global/global_xgb_model.json"
+global_model_path = "data/results/global/global_xgb_model.model"
 
 ############################################################
 # Run Aggregation
@@ -115,7 +115,6 @@ lambda_reg = params_dict["learner"]["gradient_booster"]["tree_train_param"]["lam
 alpha_reg = params_dict["learner"]["gradient_booster"]["tree_train_param"]["alpha"]
 tree_method = params_dict["learner"]["gradient_booster"]["gbtree_train_param"]["tree_method"]
 num_features = params_dict["learner"]["learner_model_param"]["num_feature"]
-
 
 # Check model summary
 print(f"Number of Trees: {num_trees}")
