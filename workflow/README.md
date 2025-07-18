@@ -2,70 +2,55 @@
 
 ## Purpose
 
-This directory contains **reusable code scripts** for:
+This directory contains **modular, reusable scripts** used in the **distributed multivariable modeling pipeline** to predict immunotherapy outcomes across diverse cancer datasets using a federated, privacy-preserving approach. Scripts are implemented in R and Python and support every stage of the modeling workflow: from signature scoring to model training, aggregation, and validation.
 
-- Data processing pipelines
-- Analysis workflows
-- Utility functions
-- Automation tasks
+---
 
-## Best Practices for Scripts
+## Key Scripts (`workflow/scripts/`)
 
-For maximum usability, scripts should:
+- `Compute_GeneSigScore.r`  
+  Defines functions to compute gene signature scores from normalized expression data using methods like GSVA, ssGSEA, or weighted mean. These scores serve as input features for modeling.
 
-- Include a detailed docstring/header explaining purpose, inputs, outputs
-- Contain inline comments for complex logic
-- Be modular and follow the single responsibility principle
-- Include proper error handling and logging
-- Have command-line interfaces when appropriate
+- `Create_train_set.r`  
+  Generates training datasets per cohort by:
+  - Loading processed `SummarizedExperiment` or `MultiAssayExperiment` objects
+  - Calculating gene signature scores
+  - Selecting shared features across datasets
+  - Exporting harmonized training matrices as `.csv` files
 
-## Git Synchronization
+- `Train_Distributed_XGBoost.r`  
+  Trains local XGBoost models for each dataset using Apache Spark via SparkR:
+  - Initializes Spark sessions and handles distributed resource allocation
+  - Performs grid search for hyperparameter tuning
+  - Saves best models and feature importance locally for each cohort
 
-Scripts **ARE tracked in Git** and represent the core reproducible components of your analysis. Ensure scripts:
+- `Aggregate_model.py`  
+  Python script to merge individual XGBoost models (saved as JSON) into a global ensemble:
+  - Applies tree-based bagging to aggregate decision trees from local models
+  - Maintains original decision tree structures
+  - Saves final global model in both `.model` and `.json` formats
 
-- Are well-tested before committing
-- Have clear versioning (consider semantic versioning)
-- Include usage examples in comments or separate documentation
+- `Validate_global_model.r`  
+  Tests the global model on independent validation datasets (including private cohorts):
+  - Prepares and aligns validation expression matrices
+  - Computes predictions using the global model
+  - Evaluates classification performance (e.g., AUC, accuracy)
 
-## Organization Recommendations
+---
 
-Consider organizing scripts by their function:
+## Input Requirements
 
-```console
-/scripts/preprocessing/
-/scripts/analysis/
-/scripts/visualization/
-/scripts/utilities/
-```
+- Processed expression data (TPM or log2-transformed)
+- Patient-level annotations (e.g., response)
+- Curated gene signature sets
+- Configuration files specifying cancer type, treatment, and dataset name. Please follow pre-processing steps at [Distributed univariable predictive modelling for Immuno-Oncology response](https://github.com/bhklab/PredictIO-UV-Dist)
 
-## Data References
+---
 
-When scripts access data:
+## Notes
 
-- Use command-line arguments or configuration files for file paths
-- Document in `docs/data_sources.md` which scripts use which data sources
-- Consider using symbolic links for consistent references across environments
+- Each script is designed for **modular execution** in a distributed environment.
+- All models are trained **locally**, and only **summary-level model files** are shared.
+- Aggregation and validation scripts are **privacy-aware**, enabling federated learning.
 
-## Documentation Requirement
 
-It is **highly recommended** to convert scripts to CLI tools using popular libraries
-like `click` or `typer`, which can make them more user-friendly and easier to document.
-
-```console
-#!/usr/bin/env python
-# -*- coding: utf-8 -*-
-"""
-script_name.py
-Usage: script_name.py [options] <input> <output>
-
-Arguments:
-    input     Description of input
-    output    Description of output
-
-Options:
-    -h --help     Show this help
-    -v --verbose  Verbose output
-"""
-```
-
-Remember that well-documented scripts are essential for reproducible research and enable others to understand and build upon your work!
