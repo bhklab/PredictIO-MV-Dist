@@ -106,5 +106,5 @@ cd PredictIO-MV-Dist
 
 Full documentation will be available in the `docs/` folder or via published GitHub Pages.
 
-For data download and processing, please refer to the univariable repository:  
+For data download and processing, please refer to the multivariable repository:  
 🔗 [https://github.com/bhklab/PredictIO-MV-Dist](https://github.com/bhklab/PredictIO-MV-Dist)
