@@ -56,9 +56,11 @@
         <ul>
     <li class="toctree-l3"><a class="reference internal" href="#rna-seq-and-clinical-data">RNA-Seq and Clinical Data</a>
     </li>
-    <li class="toctree-l3"><a class="reference internal" href="#signatures-platform">Signatures Platform</a>
+    <li class="toctree-l3"><a class="reference internal" href="#private-cohorts-used-for-model-validation">Private Cohorts Used for Model Validation</a>
     </li>
         </ul>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#rna-based-signature-sets">RNA-Based Signature Sets</a>
     </li>
     <li class="toctree-l2"><a class="reference internal" href="#key-clinical-variables">Key Clinical Variables</a>
     </li>
@@ -95,26 +97,65 @@
               
                 <h1 id="data-sources">Data Sources</h1>
 <h2 id="overview">Overview</h2>
-<p>This document describes all <strong>Immuno-Oncology (IO)</strong> and <strong>RNA-based signature</strong> datasets used throughout the distributed univariable analysis pipeline. Complete documentation ensures <strong>reproducibility</strong>, proper attribution, and transparency across all collaborating centers.</p>
+<p>This document describes all <strong>Immuno-Oncology (IO)</strong> and <strong>RNA-based signature</strong> datasets used throughout the distributed univariable and multivariable analysis pipelines. Complete documentation ensures <strong>reproducibility</strong>, proper attribution, and transparency across all collaborating centers.</p>
 <hr />
 <h2 id="immuno-oncology-data-sources">Immuno-Oncology Data Sources</h2>
 <h3 id="rna-seq-and-clinical-data">RNA-Seq and Clinical Data</h3>
 <ul>
-<li><strong>Name</strong>: Immune Checkpoint Blockade - RNA-Seq, and Clinical data</li>
-<li><strong>URL</strong>: <a href="https://www.orcestra.ca/clinical_icb">https://www.orcestra.ca/clinical_icb</a></li>
-<li><strong>Access Method</strong>: Direct download or programmatic retrieval via API (if applicable)</li>
-<li><strong>Data Format</strong>: MultiAssayExperiment and SummarizedExperiment in R (Bioconductor)</li>
-<li><strong>Citation</strong>: <a href="https://pubmed.ncbi.nlm.nih.gov/36055464/">Bareche, Y., Kelly, D., Abbas-Aghababazadeh, F. et al., Annals of Oncology 2022</a></li>
+<li><strong>Name</strong>: Immune Checkpoint Blockade - RNA-Seq, and Clinical data  </li>
+<li><strong>URL</strong>: <a href="https://www.orcestra.ca/clinical_icb">https://www.orcestra.ca/clinical_icb</a>  </li>
+<li><strong>Access Method</strong>: Direct download or programmatic retrieval via API (if applicable)  </li>
+<li><strong>Data Format</strong>: MultiAssayExperiment and SummarizedExperiment in R (Bioconductor)  </li>
+<li><strong>Citation</strong>: <a href="https://pubmed.ncbi.nlm.nih.gov/36055464/">Bareche, Y., Kelly, D., Abbas-Aghababazadeh, F. et al., Annals of Oncology 2022</a>  </li>
 </ul>
-<h3 id="signatures-platform">Signatures Platform</h3>
+<h3 id="private-cohorts-used-for-model-validation">Private Cohorts Used for Model Validation</h3>
+<p>Additional datasets from institutional collaborations were used <strong>only for external validation</strong>. These cohorts are not publicly available and are governed by data-sharing agreements.</p>
+<table>
+<thead>
+<tr>
+<th>Dataset Name</th>
+<th>PMID</th>
+<th>Access</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Hartwig</td>
+<td>31645765</td>
+<td><a href="https://www.hartwigmedicalfoundation.nl/en/data/database/">Hartwig Medical Foundation</a></td>
+</tr>
+<tr>
+<td>IMmotion150</td>
+<td>29867230</td>
+<td><a href="https://ega-archive.org/datasets/EGAD00001004183">EGAD00001004183</a></td>
+</tr>
+<tr>
+<td>INSPIRE</td>
+<td>30867072</td>
+<td><a href="https://ega-archive.org/studies/EGAS00001003280">EGAS00001003280</a></td>
+</tr>
+<tr>
+<td>OAK</td>
+<td>27979383</td>
+<td><a href="https://ega-archive.org/dacs/EGAC00001002120">EGAC00001002120</a></td>
+</tr>
+<tr>
+<td>POPLAR</td>
+<td>26970723</td>
+<td><a href="https://ega-archive.org/dacs/EGAC00001002120">EGAC00001002120</a></td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2 id="rna-based-signature-sets">RNA-Based Signature Sets</h2>
 <ul>
-<li><strong>Name</strong>: SignatureSets: An R Package for RNA-Based Immuno-Oncology Signatures</li>
-<li><strong>Version</strong>: v1.0</li>
-<li><strong>URL - IO Signatures</strong>: <a href="https://github.com/bhklab/SignatureSets">bhklab/SignatureSets</a> </li>
-<li><strong>URL - TME Signatures</strong> — <a href="https://github.com/IOBR/IOBR">IOBR Project</a>  </li>
-<li><strong>Access Method</strong>: Direct download or programmatic retrieval via API (if applicable)</li>
-<li><strong>Data Format</strong>: rda, CSV (signatures, metadata)</li>
-<li><strong>Citation</strong>: <a href="https://pubmed.ncbi.nlm.nih.gov/36055464/">Bareche, Y., Kelly, D., Abbas-Aghababazadeh, F. et al., Annals of Oncology 2022</a></li>
+<li><strong>Name</strong>: SignatureSets: An R Package for RNA-Based Immuno-Oncology Signatures  </li>
+<li><strong>Version</strong>: v1.0  </li>
+<li><strong>URL - IO Signatures</strong>: <a href="https://github.com/bhklab/SignatureSets">bhklab/SignatureSets</a>  </li>
+<li><strong>URL - TME Signatures</strong>: <a href="https://github.com/IOBR/IOBR">IOBR Project</a>  </li>
+<li><strong>Access Method</strong>: Direct download or programmatic retrieval via API (if applicable)  </li>
+<li><strong>Data Format</strong>: rda, CSV (signatures, metadata)  </li>
+<li><strong>Citation</strong>: <a href="https://pubmed.ncbi.nlm.nih.gov/36055464/">Bareche, Y., Kelly, D., Abbas-Aghababazadeh, F. et al., Annals of Oncology 2022</a>  </li>
 </ul>
 <hr />
 <h2 id="key-clinical-variables">Key Clinical Variables</h2>
@@ -214,7 +255,6 @@
 </tr>
 </tbody>
 </table>
-<hr />
               
             </div>
           </div><footer>
