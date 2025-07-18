@@ -97,7 +97,6 @@ To ensure consistency across datasets with varying annotation styles:
 
 This harmonization ensures consistent treatment grouping across datasets for downstream meta-analysis.
 
-```
 ## Create Train Set Files
 
 Once all processed `.rda` files are ready, use the following R script to generate training feature matrices:
