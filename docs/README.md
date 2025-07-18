@@ -27,7 +27,7 @@ This repository implements a **distributed Spark-based pipeline** for multivaria
 - Center-specific training of XGBoost models with no data sharing
 - Tree-based model aggregation to build a global model
 - Independent model validation using public and private cohorts
-- Reproducible and scalable deployment using **Apache Spark** and **R/SparkR**
+- Reproducible and scalable deployment using **Pixi**, **Python**, **Apache Spark** and **R/SparkR**
 
 ---
 
