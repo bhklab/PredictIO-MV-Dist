@@ -46,9 +46,29 @@
               <ul class="current">
                 <li class="toctree-l1 current"><a class="reference internal current" href="#">Usage</a>
     <ul class="current">
-    <li class="toctree-l2"><a class="reference internal" href="#project-configuration">Project Configuration</a>
+    <li class="toctree-l2"><a class="reference internal" href="#overview">Overview</a>
     </li>
-    <li class="toctree-l2"><a class="reference internal" href="#running-your-analysis">Running Your Analysis</a>
+    <li class="toctree-l2"><a class="reference internal" href="#required-scripts">Required Scripts</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#input-preparation">Input Preparation</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#steps-to-run-the-pipeline">Steps to Run the Pipeline</a>
+        <ul>
+    <li class="toctree-l3"><a class="reference internal" href="#step-1-compute-signature-scores">Step 1: Compute Signature Scores</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#step-2-create-train-sets">Step 2: Create Train Sets</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#step-3-train-local-models-with-spark">Step 3: Train Local Models with Spark</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#step-4-aggregate-local-models">Step 4: Aggregate Local Models</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#step-5-validate-global-model">Step 5: Validate Global Model</a>
+    </li>
+        </ul>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#output-directory-structure">Output Directory Structure</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#additional-notes">Additional Notes</a>
     </li>
     </ul>
                 </li>
@@ -85,13 +105,97 @@
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
             <div class="section" itemprop="articleBody">
               
-                <h1 id="usage-guide">Usage Guide</h1>
-<h2 id="project-configuration">Project Configuration</h2>
-<p>TODO:: discuss how to edit the configuration files in the <code>config/</code> directory to match your research parameters</p>
-<p>TODO:: discuss how to add your input data to the <code>data/rawdata/</code> directory and document it properly in the <code>docs/data_sources/</code> directory</p>
-<p>TODO:: discuss how to manage and organize your data sources effectively</p>
-<h2 id="running-your-analysis">Running Your Analysis</h2>
-<p>TODO:: discuss using pixi tasks to run the analysis</p>
+                <h1 id="usage-guide-distributed-multivariable-pipeline">Usage Guide – Distributed Multivariable Pipeline</h1>
+<p>This guide outlines how to run the multivariable biomarker discovery pipeline across distributed datasets using Spark and XGBoost.</p>
+<hr />
+<h2 id="overview">Overview</h2>
+<p>This pipeline supports distributed model training using Spark and script-based aggregation and validation. The primary components include:</p>
+<ul>
+<li>Gene signature score computation</li>
+<li>Train set generation</li>
+<li>Distributed XGBoost training</li>
+<li>Model aggregation</li>
+<li>Final validation</li>
+</ul>
+<hr />
+<h2 id="required-scripts">Required Scripts</h2>
+<p>All scripts are located in <code>workflow/scripts/</code>:</p>
+<ul>
+<li>
+<p><strong><code>Compute_GeneSigScore.r</code></strong><br />
+  Computes gene signature scores (e.g., GSVA, ssGSEA, weighted mean) for each dataset.</p>
+</li>
+<li>
+<p><strong><code>Create_train_set.r</code></strong><br />
+  Prepares training matrices by merging signature scores and patient responses for each dataset.<br />
+  ➜ Output: <code>.csv</code> files saved in <code>data/procdata/</code></p>
+</li>
+<li>
+<p><strong><code>Train_Distributed_XGBoost.r</code></strong><br />
+  Trains local XGBoost models on each dataset using Spark. Performs grid search for hyperparameter tuning.<br />
+  ➜ Output: <code>.rds</code> models and <code>.csv</code> feature importance files saved in <code>data/results/local/</code></p>
+</li>
+<li>
+<p><strong><code>Aggregate_model.py</code></strong><br />
+  Merges all local XGBoost models into a single global model using a tree-based bagging strategy.<br />
+  ➜ Output: <code>.model</code> and <code>.json</code> files saved in <code>data/results/global/</code></p>
+</li>
+<li>
+<p><strong><code>Validate_global_model.r</code></strong><br />
+  Evaluates the final global model on external validation datasets (private).<br />
+  ➜ Output: Prediction metrics saved in <code>data/results/validation/</code></p>
+</li>
+</ul>
+<hr />
+<h2 id="input-preparation">Input Preparation</h2>
+<p>Processed input <code>.rda</code> files must be generated <strong>before</strong> running the multivariable pipeline.<br />
+These files can be created using the univariable pipeline or downloaded directly.</p>
+<blockquote>
+<p>For full preprocessing instructions, visit:<br />
+🔗 <a href="https://github.com/bhklab/PredictIO-UV-Dist"><code>PredictIO-UV-Dist</code></a></p>
+</blockquote>
+<p>Required files in <code>data/rawdata/</code>:</p>
+<ul>
+<li>Dataset files: <code>*.rda</code></li>
+<li>Signature metadata:</li>
+<li><code>signature.rda</code></li>
+<li><code>sig.info.rda</code></li>
+<li>Or: <a href="https://zenodo.org/records/15832652">Zenodo Precompiled Signatures</a></li>
+</ul>
+<hr />
+<h2 id="steps-to-run-the-pipeline">Steps to Run the Pipeline</h2>
+<h3 id="step-1-compute-signature-scores">Step 1: Compute Signature Scores</h3>
+<pre><code class="language-bash">Rscript workflow/scripts/Compute_GeneSigScore.r
+</code></pre>
+<h3 id="step-2-create-train-sets">Step 2: Create Train Sets</h3>
+<pre><code class="language-bash">Rscript workflow/scripts/Create_train_set.r
+</code></pre>
+<h3 id="step-3-train-local-models-with-spark">Step 3: Train Local Models with Spark</h3>
+<pre><code class="language-bash">Rscript workflow/scripts/Train_Distributed_XGBoost.r
+</code></pre>
+<blockquote>
+<p>💡 Spark must be configured locally. Make sure <code>SPARK_HOME</code>, <code>HADOOP_HOME</code>, and <code>winutils.exe</code> are correctly set.</p>
+</blockquote>
+<h3 id="step-4-aggregate-local-models">Step 4: Aggregate Local Models</h3>
+<pre><code class="language-bash">python workflow/scripts/Aggregate_model.py
+</code></pre>
+<h3 id="step-5-validate-global-model">Step 5: Validate Global Model</h3>
+<pre><code class="language-bash">Rscript workflow/scripts/Validate_global_model.r
+</code></pre>
+<hr />
+<h2 id="output-directory-structure">Output Directory Structure</h2>
+<pre><code class="language-bash">/data/results/
+├── local/         # Per-dataset model outputs
+├── global/        # Final aggregated model
+└── validation/    # Results from external validation cohorts
+</code></pre>
+<hr />
+<h2 id="additional-notes">Additional Notes</h2>
+<ul>
+<li>This is a <strong>federated analysis pipeline</strong>: no raw data sharing between centers.</li>
+<li>External validation is performed using <strong>private cohorts</strong>.</li>
+<li>All outputs are de-identified and summarized for model integration and evaluation.</li>
+</ul>
               
             </div>
           </div><footer>
