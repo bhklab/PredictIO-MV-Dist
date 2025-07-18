@@ -1,4 +1,4 @@
-# Distributed multivariable predictive modelling for Immuno-Oncology response
+# Distributed Multivariable Predictive Modelling for Immuno-Oncology Response
 
 **Authors:** [Farnoosh Abbas Aghababazadeh](https://github.com/RibaA), [Kewei Ni](https://github.com/Nicole9801), [Nasim Bondar Sahebi](https://github.com/sogolsahebi)
 
@@ -22,7 +22,7 @@
 
 ## Project Overview
 
-This repository implements a **distributed Spark-based pipeline** for multivariable analysis of immune-related RNA signatures and their predictive power for immunotherapy response. Key features include:
+This repository implements a **distributed Spark-based pipeline** for multivariable analysis of immune-related RNA signatures and their predictive power for IO therapy response. Key features include:
 
 - Center-specific training of XGBoost models with no data sharing
 - Tree-based model aggregation to build a global model
@@ -79,13 +79,15 @@ Distributed_XGBoost/
 ├── pixi.toml            # Pixi environment specification
 └── README.md            # Project overview and setup instructions
 ```
+
+---
+
 ## Set Up
 
 ### Prerequisites
 
 Pixi is required to run this project.
 If you haven't installed it yet, [follow these instructions](https://pixi.sh/latest/)
-
 
 ---
 
@@ -94,13 +96,15 @@ If you haven't installed it yet, [follow these instructions](https://pixi.sh/lat
 ### Clone and Run
 
 ```bash
-git clone git@github.com:bhklab/PredictIO-MV-Dist.git
+git clone https://github.com/bhklab/PredictIO-MV-Dist.git
 cd PredictIO-MV-Dist
+```
 
 ---
 
 ## Documentation
+
 Full documentation will be available in the `docs/` folder or via published GitHub Pages.
 
 For data download and processing, please refer to the univariable repository:  
-🔗 [https://github.com/bhklab/PredictIO-MV-Dist](https://github.com/bhklab/PredictIO-MV-Dist)
+🔗 [https://github.com/bhklab/PredictIO-UV-Dist](https://github.com/bhklab/PredictIO-UV-Dist)
