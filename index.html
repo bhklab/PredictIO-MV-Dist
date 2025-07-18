@@ -42,11 +42,21 @@
               <ul class="current">
                 <li class="toctree-l1 current"><a class="reference internal current" href="#">Home</a>
     <ul class="current">
+    <li class="toctree-l2"><a class="reference internal" href="#project-overview">Project Overview</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#spark-environment-setup">Spark Environment Setup</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#repository-structure">Repository Structure</a>
+    </li>
     <li class="toctree-l2"><a class="reference internal" href="#set-up">Set Up</a>
         <ul>
     <li class="toctree-l3"><a class="reference internal" href="#prerequisites">Prerequisites</a>
     </li>
-    <li class="toctree-l3"><a class="reference internal" href="#installation">Installation</a>
+        </ul>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#getting-started">Getting Started</a>
+        <ul>
+    <li class="toctree-l3"><a class="reference internal" href="#clone-and-run">Clone and Run</a>
     </li>
         </ul>
     </li>
@@ -94,7 +104,7 @@
                 <h1 id="distributed-multivariable-predictive-modelling-for-immuno-oncology-response">Distributed multivariable predictive modelling for Immuno-Oncology response</h1>
 <p><strong>Authors:</strong> <a href="https://github.com/RibaA">Farnoosh Abbas Aghababazadeh</a>, <a href="https://github.com/Nicole9801">Kewei Ni</a>, <a href="https://github.com/sogolsahebi">Nasim Bondar Sahebi</a></p>
 <p><strong>Contact:</strong> <a href="mailto:farnoosh.abbasaghababazadeh@uhn.ca">farnoosh.abbasaghababazadeh@uhn.ca</a>, <a href="mailto:kewei.ni@uhn.ca">kewei.ni@uhn.ca</a>, <a href="mailto:nasim.bondarsahebi@uhn.ca">nasim.bondarsahebi@uhn.ca</a></p>
-<p><strong>Description:</strong> Distributed multivariable predictive modeling framework for Immuno-Oncology (IO) response prediction, enabling reproducible analysis across centers without sharing patient-level data.</p>
+<p><strong>Description:</strong> A distributed framework for multivariable predictive modeling of Immuno-Oncology (IO) response, enabling parallelized model training across multiple datasets using Apache Spark, with strict adherence to data privacy.</p>
 <hr />
 <p><a href="https://github.com/prefix-dev/pixi"><img alt="pixi-badge" src="https://img.shields.io/endpoint?url=https://raw.githubusercontent.com/prefix-dev/pixi/main/assets/badge/v0.json&amp;style=flat-square" /></a>
 <a href="https://github.com/astral-sh/ruff"><img alt="Ruff" src="https://img.shields.io/endpoint?url=https://raw.githubusercontent.com/astral-sh/ruff/main/assets/badge/v2.json&amp;style=flat-square" /></a>
@@ -104,20 +114,70 @@
 <img alt="GitHub pull requests" src="https://img.shields.io/github/issues-pr/bhklab/predictio-mv-dist?style=flat-square" />
 <img alt="GitHub contributors" src="https://img.shields.io/github/contributors/bhklab/predictio-mv-dist?style=flat-square" />
 <img alt="GitHub release (latest by date)" src="https://img.shields.io/github/v/release/bhklab/predictio-mv-dist?style=flat-square" /></p>
+<hr />
+<h2 id="project-overview">Project Overview</h2>
+<p>This repository implements a <strong>distributed Spark-based pipeline</strong> for multivariable analysis of immune-related RNA signatures and their predictive power for immunotherapy response. Key features include:</p>
+<ul>
+<li>Center-specific training of XGBoost models with no data sharing</li>
+<li>Tree-based model aggregation to build a global model</li>
+<li>Independent model validation using public and private cohorts</li>
+<li>Reproducible and scalable deployment using <strong>Apache Spark</strong> and <strong>R/SparkR</strong></li>
+</ul>
+<hr />
+<h2 id="spark-environment-setup">Spark Environment Setup</h2>
+<p>Apache Spark is required for distributed model training.</p>
+<ol>
+<li><strong>Install Spark:</strong></li>
+</ol>
+<p>Download and extract Spark 3.2.1 with Hadoop 3.2:
+   <code>https://archive.apache.org/dist/spark/spark-3.2.1/spark-3.2.1-bin-hadoop3.2.tgz</code></p>
+<ol>
+<li><strong>Set Spark environment in your R script (<code>Train_Distributed_XGBoost.r</code>):</strong></li>
+</ol>
+<p><code>r
+   Sys.setenv(SPARK_HOME = "/your/local/path/spark-3.2.1-bin-hadoop3.2")
+   .libPaths(c(file.path(Sys.getenv("SPARK_HOME"), "R", "lib"), .libPaths()))</code></p>
+<ol>
+<li><strong>Install required R packages:</strong></li>
+</ol>
+<p><code>r
+   install.packages("SparkR")</code></p>
+<hr />
+<h2 id="repository-structure">Repository Structure</h2>
+<pre><code>Distributed_XGBoost/
+├── config/              # Optional YAML configs (not required for MV)
+├── data/                # Raw data, processed objects, results folders
+│   ├── rawdata/
+│   ├── procdata/
+│   └── results/
+│       ├── local/
+│       ├── global/
+│       └── validation/
+├── workflow/scripts/    # R and Python scripts for modeling
+│   ├── Compute_GeneSigScore.r
+│   ├── Create_train_set.r
+│   ├── Train_Distributed_XGBoost.r
+│   ├── Aggregate_model.py
+│   └── Validate_global_model.r
+├── docs/                # Markdown-based documentation
+├── pixi.toml            # Pixi environment specification
+└── README.md            # Project overview and setup instructions
+</code></pre>
 <h2 id="set-up">Set Up</h2>
 <h3 id="prerequisites">Prerequisites</h3>
 <p>Pixi is required to run this project.
 If you haven't installed it yet, <a href="https://pixi.sh/latest/">follow these instructions</a></p>
-<h3 id="installation">Installation</h3>
-<ol>
-<li>Clone this repository to your local machine</li>
-<li>Navigate to the project directory</li>
-<li>Set up the environment using Pixi:</li>
-</ol>
-<pre><code class="language-bash">pixi install
-</code></pre>
+<hr />
+<h2 id="getting-started">Getting Started</h2>
+<h3 id="clone-and-run">Clone and Run</h3>
+<p>```bash
+git clone git@github.com:bhklab/PredictIO-MV-Dist.git
+cd PredictIO-MV-Dist</p>
+<hr />
 <h2 id="documentation">Documentation</h2>
-<p>Click <a href="https://bhklab.github.io/predictio-mv-dist">here</a> to view the full documentation.</p>
+<p>Full documentation will be available in the <code>docs/</code> folder or via published GitHub Pages.</p>
+<p>For data download and processing, please refer to the univariable repository:<br />
+🔗 <a href="https://github.com/bhklab/PredictIO-MV-Dist">https://github.com/bhklab/PredictIO-MV-Dist</a></p>
               
             </div>
           </div><footer>
@@ -170,5 +230,5 @@ If you haven't installed it yet, <a href="https://pixi.sh/latest/">follow these 
 
 <!--
 MkDocs version : 1.6.1
-Build Date UTC : 2025-07-18 01:00:09.007092+00:00
+Build Date UTC : 2025-07-18 01:13:37.290698+00:00
 -->
