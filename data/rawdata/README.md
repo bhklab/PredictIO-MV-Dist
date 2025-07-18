@@ -54,7 +54,7 @@ Available sources include:
 
 - **IO Signatures** — [bhklab/SignatureSets](https://github.com/bhklab/SignatureSets)  
 - **TME Signatures** — [IOBR Project](https://github.com/IOBR/IOBR)  
-- **Precompiled `.RData` file** — [Zenodo DOI: 10.5281/zenodo.15832651](https://zenodo.org/records/15832652)
+- **Precompiled `.RData` file** — [Zenodo DOI: 10.5281/zenodo.15832652](https://zenodo.org/records/15832652)
 
 Each signature is:
 - Annotated with source publication
