@@ -77,7 +77,6 @@ Distributed_XGBoost/
 │   └── Validate_global_model.r
 ├── docs/                # Markdown-based documentation
 │   └── README.md        # Project overview and setup instructions 
-├── run_pipeline.sh      # Master script to run the full pipeline
 └── pixi.toml            # Pixi environment specification
 ```
 
@@ -100,23 +99,6 @@ If you haven't installed it yet, [follow these instructions](https://pixi.sh/lat
 git clone https://github.com/bhklab/PredictIO-MV-Dist.git
 cd PredictIO-MV-Dist
 ```
-
----
-
-## Run Full Pipeline
-
-Once raw data is organized and the environment is ready, run the entire pipeline (training, aggregation, validation) in one step:
-
-```bash
-pixi run bash run_pipeline.sh
-```
-
-This script performs:
-
-1. Creation of training datasets
-2. Training of local XGBoost models using Spark
-3. Aggregation into a global model
-4. Validation on independent datasets
 
 ---
 
