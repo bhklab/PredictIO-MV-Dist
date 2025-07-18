@@ -52,17 +52,15 @@
     <ul class="current">
     <li class="toctree-l2"><a class="reference internal" href="#overview">Overview</a>
     </li>
-    <li class="toctree-l2"><a class="reference internal" href="#how-to-document-your-data">How to Document Your Data</a>
+    <li class="toctree-l2"><a class="reference internal" href="#immuno-oncology-data-sources">Immuno-Oncology Data Sources</a>
         <ul>
-    <li class="toctree-l3"><a class="reference internal" href="#1-external-data-sources">1. External Data Sources</a>
+    <li class="toctree-l3"><a class="reference internal" href="#rna-seq-and-clinical-data">RNA-Seq and Clinical Data</a>
     </li>
-    <li class="toctree-l3"><a class="reference internal" href="#2-internalgenerated-data">2. Internal/Generated Data</a>
-    </li>
-    <li class="toctree-l3"><a class="reference internal" href="#3-data-dictionary">3. Data Dictionary</a>
+    <li class="toctree-l3"><a class="reference internal" href="#signatures-platform">Signatures Platform</a>
     </li>
         </ul>
     </li>
-    <li class="toctree-l2"><a class="reference internal" href="#best-practices">Best Practices</a>
+    <li class="toctree-l2"><a class="reference internal" href="#key-clinical-variables">Key Clinical Variables</a>
     </li>
     </ul>
                 </li>
@@ -97,94 +95,126 @@
               
                 <h1 id="data-sources">Data Sources</h1>
 <h2 id="overview">Overview</h2>
-<p>This section should document all data sources used in your project.
-Proper documentation ensures reproducibility and helps others
-understand your research methodology.</p>
-<h2 id="how-to-document-your-data">How to Document Your Data</h2>
-<p>For each data source, include the following information:</p>
-<h3 id="1-external-data-sources">1. External Data Sources</h3>
+<p>This document describes all <strong>Immuno-Oncology (IO)</strong> and <strong>RNA-based signature</strong> datasets used throughout the distributed univariable analysis pipeline. Complete documentation ensures <strong>reproducibility</strong>, proper attribution, and transparency across all collaborating centers.</p>
+<hr />
+<h2 id="immuno-oncology-data-sources">Immuno-Oncology Data Sources</h2>
+<h3 id="rna-seq-and-clinical-data">RNA-Seq and Clinical Data</h3>
 <ul>
-<li><strong>Name</strong>: Official name of the dataset</li>
-<li><strong>Version/Date</strong>: Version number or access date</li>
-<li><strong>URL</strong>: Link to the data source</li>
-<li><strong>Access Method</strong>: How the data was obtained (direct download, API, etc.)</li>
-<li><strong>Access Date</strong>: When the data was accessed/retrieved</li>
-<li><strong>Data Format</strong>: Format of the data (FASTQ, DICOM, CSV, etc.)</li>
-<li><strong>Citation</strong>: Proper academic citation if applicable</li>
-<li><strong>License</strong>: Usage restrictions and attribution requirements</li>
+<li><strong>Name</strong>: Immune Checkpoint Blockade - RNA-Seq, and Clinical data</li>
+<li><strong>URL</strong>: <a href="https://www.orcestra.ca/clinical_icb">https://www.orcestra.ca/clinical_icb</a></li>
+<li><strong>Access Method</strong>: Direct download or programmatic retrieval via API (if applicable)</li>
+<li><strong>Data Format</strong>: MultiAssayExperiment and SummarizedExperiment in R (Bioconductor)</li>
+<li><strong>Citation</strong>: <a href="https://pubmed.ncbi.nlm.nih.gov/36055464/">Bareche, Y., Kelly, D., Abbas-Aghababazadeh, F. et al., Annals of Oncology 2022</a></li>
 </ul>
-<p>Example:</p>
-<pre><code class="language-markdown">## TCGA RNA-Seq Data
-
-- **Name**: The Cancer Genome Atlas RNA-Seq Data
-- **Version**: Data release 28.0 - March 2021
-- **URL**: https://portal.gdc.cancer.gov/
-- **Access Method**: GDC Data Transfer Tool
-- **Access Date**: 2021-03-15
-- **Citation**: The Cancer Genome Atlas Network. (2012). Comprehensive molecular portraits of human breast tumours. Nature, 490(7418), 61-70.
-- **License**: [NIH Genomic Data Sharing Policy](https://sharing.nih.gov/genomic-data-sharing-policy)
-</code></pre>
-<h3 id="2-internalgenerated-data">2. Internal/Generated Data</h3>
+<h3 id="signatures-platform">Signatures Platform</h3>
 <ul>
-<li><strong>Name</strong>: Descriptive name of the dataset</li>
-<li><strong>Creation Date</strong>: When the data was generated</li>
-<li><strong>Creation Method</strong>: Brief description of how the data was created</li>
-<li><strong>Input Data</strong>: What source data was used</li>
-<li><strong>Processing Scripts</strong>: References to scripts/Github Repo used to generate this data</li>
+<li><strong>Name</strong>: SignatureSets: An R Package for RNA-Based Immuno-Oncology Signatures</li>
+<li><strong>Version</strong>: v1.0</li>
+<li><strong>URL - IO Signatures</strong>: <a href="https://github.com/bhklab/SignatureSets">bhklab/SignatureSets</a> </li>
+<li><strong>URL - TME Signatures</strong> — <a href="https://github.com/IOBR/IOBR">IOBR Project</a>  </li>
+<li><strong>Access Method</strong>: Direct download or programmatic retrieval via API (if applicable)</li>
+<li><strong>Data Format</strong>: rda, CSV (signatures, metadata)</li>
+<li><strong>Citation</strong>: <a href="https://pubmed.ncbi.nlm.nih.gov/36055464/">Bareche, Y., Kelly, D., Abbas-Aghababazadeh, F. et al., Annals of Oncology 2022</a></li>
 </ul>
-<p>Example:</p>
-<pre><code class="language-markdown">## Processed RNA-Seq Data
-- **Name**: Processed RNA-Seq Data for TCGA-BRCA
-- **Creation Date**: 2021-04-01
-- **Creation Method**: Processed using kallisto and DESeq2
-- **Input Data**: FASTQ Data obtained from the SRA database
-- **Processing Scripts**: [GitHub Repo](https://github.com/tcga-brca-rnaseq)
-</code></pre>
-<h3 id="3-data-dictionary">3. Data Dictionary</h3>
-<p>For complex datasets, include a data dictionary that explains:</p>
+<hr />
+<h2 id="key-clinical-variables">Key Clinical Variables</h2>
 <table>
 <thead>
 <tr>
-<th>Column Name</th>
-<th>Data Type</th>
+<th>Variable</th>
 <th>Description</th>
-<th>Units</th>
-<th>Possible Values</th>
+<th>Format</th>
+<th>Example</th>
 </tr>
 </thead>
 <tbody>
 <tr>
-<td>patient_id</td>
-<td>string</td>
+<td>patientid</td>
 <td>Unique patient identifier</td>
-<td>N/A</td>
-<td>TCGA-XX-XXXX format</td>
+<td>string</td>
+<td>GSE12345_P01</td>
 </tr>
 <tr>
 <td>age</td>
+<td>Age at diagnosis</td>
 <td>integer</td>
-<td>Patient age at diagnosis</td>
-<td>years</td>
-<td>18-100</td>
+<td>63</td>
 </tr>
 <tr>
-<td>expression</td>
-<td>float</td>
-<td>Gene expression value</td>
-<td>TPM</td>
-<td>Any positive value</td>
+<td>sex</td>
+<td>Biological sex</td>
+<td>factor</td>
+<td>M/F</td>
+</tr>
+<tr>
+<td>cancer_type</td>
+<td>Primary cancer type</td>
+<td>string</td>
+<td>Melanoma</td>
+</tr>
+<tr>
+<td>histo</td>
+<td>Histological classification</td>
+<td>string</td>
+<td>Melanoma</td>
+</tr>
+<tr>
+<td>treatment_type</td>
+<td>IO therapy category</td>
+<td>string</td>
+<td>PD-1/PD-L1</td>
+</tr>
+<tr>
+<td>stage</td>
+<td>Tumor stage at diagnosis</td>
+<td>string</td>
+<td>Stage II</td>
+</tr>
+<tr>
+<td>recist</td>
+<td>RECIST clinical response</td>
+<td>factor</td>
+<td>CR/PR/SD/PD</td>
+</tr>
+<tr>
+<td>response</td>
+<td>Clinical benefit status (e.g., response)</td>
+<td>string</td>
+<td>R/NR</td>
+</tr>
+<tr>
+<td>survival_time_os</td>
+<td>Overall survival time (months)</td>
+<td>numeric</td>
+<td>21.3</td>
+</tr>
+<tr>
+<td>event_occurred_os</td>
+<td>Overall survival event (1 = death)</td>
+<td>binary</td>
+<td>1</td>
+</tr>
+<tr>
+<td>survival_time_pfs</td>
+<td>Progression-free survival time (months)</td>
+<td>numeric</td>
+<td>18.2</td>
+</tr>
+<tr>
+<td>event_occurred_pfs</td>
+<td>Progression-free survival event (1 = progression)</td>
+<td>binary</td>
+<td>1</td>
+</tr>
+<tr>
+<td>survival_unit</td>
+<td>Unit of survival time</td>
+<td>string</td>
+<td>months</td>
 </tr>
 </tbody>
 </table>
-<h2 id="best-practices">Best Practices</h2>
-<ul>
-<li>Store raw data in <code>data/rawdata/</code> and never modify it</li>
-<li>Store processed data in <code>data/procdata/</code> and all code used to generate it should be in <code>workflow/scripts/</code></li>
-<li>Document all processing steps</li>
-<li>Track data provenance (where data came from and how it was modified)</li>
-<li>Respect data usage agreements and licenses!
-    This is especially important for data that should not be shared publicly</li>
-</ul>
+<hr />
               
             </div>
           </div><footer>
