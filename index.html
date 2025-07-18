@@ -101,7 +101,7 @@
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
             <div class="section" itemprop="articleBody">
               
-                <h1 id="distributed-multivariable-predictive-modelling-for-immuno-oncology-response">Distributed multivariable predictive modelling for Immuno-Oncology response</h1>
+                <h1 id="distributed-multivariable-predictive-modelling-for-immuno-oncology-response">Distributed Multivariable Predictive Modelling for Immuno-Oncology Response</h1>
 <p><strong>Authors:</strong> <a href="https://github.com/RibaA">Farnoosh Abbas Aghababazadeh</a>, <a href="https://github.com/Nicole9801">Kewei Ni</a>, <a href="https://github.com/sogolsahebi">Nasim Bondar Sahebi</a></p>
 <p><strong>Contact:</strong> <a href="mailto:farnoosh.abbasaghababazadeh@uhn.ca">farnoosh.abbasaghababazadeh@uhn.ca</a>, <a href="mailto:kewei.ni@uhn.ca">kewei.ni@uhn.ca</a>, <a href="mailto:nasim.bondarsahebi@uhn.ca">nasim.bondarsahebi@uhn.ca</a></p>
 <p><strong>Description:</strong> A distributed framework for multivariable predictive modeling of Immuno-Oncology (IO) response, enabling parallelized model training across multiple datasets using Apache Spark, with strict adherence to data privacy.</p>
@@ -116,7 +116,7 @@
 <img alt="GitHub release (latest by date)" src="https://img.shields.io/github/v/release/bhklab/predictio-mv-dist?style=flat-square" /></p>
 <hr />
 <h2 id="project-overview">Project Overview</h2>
-<p>This repository implements a <strong>distributed Spark-based pipeline</strong> for multivariable analysis of immune-related RNA signatures and their predictive power for immunotherapy response. Key features include:</p>
+<p>This repository implements a <strong>distributed Spark-based pipeline</strong> for multivariable analysis of immune-related RNA signatures and their predictive power for IO therapy response. Key features include:</p>
 <ul>
 <li>Center-specific training of XGBoost models with no data sharing</li>
 <li>Tree-based model aggregation to build a global model</li>
@@ -163,6 +163,7 @@
 ├── pixi.toml            # Pixi environment specification
 └── README.md            # Project overview and setup instructions
 </code></pre>
+<hr />
 <h2 id="set-up">Set Up</h2>
 <h3 id="prerequisites">Prerequisites</h3>
 <p>Pixi is required to run this project.
@@ -170,14 +171,14 @@ If you haven't installed it yet, <a href="https://pixi.sh/latest/">follow these 
 <hr />
 <h2 id="getting-started">Getting Started</h2>
 <h3 id="clone-and-run">Clone and Run</h3>
-<p>```bash
-git clone git@github.com:bhklab/PredictIO-MV-Dist.git
-cd PredictIO-MV-Dist</p>
+<pre><code class="language-bash">git clone https://github.com/bhklab/PredictIO-MV-Dist.git
+cd PredictIO-MV-Dist
+</code></pre>
 <hr />
 <h2 id="documentation">Documentation</h2>
 <p>Full documentation will be available in the <code>docs/</code> folder or via published GitHub Pages.</p>
 <p>For data download and processing, please refer to the univariable repository:<br />
-🔗 <a href="https://github.com/bhklab/PredictIO-MV-Dist">https://github.com/bhklab/PredictIO-MV-Dist</a></p>
+🔗 <a href="https://github.com/bhklab/PredictIO-UV-Dist">https://github.com/bhklab/PredictIO-UV-Dist</a></p>
               
             </div>
           </div><footer>
@@ -230,5 +231,5 @@ cd PredictIO-MV-Dist</p>
 
 <!--
 MkDocs version : 1.6.1
-Build Date UTC : 2025-07-18 01:13:37.290698+00:00
+Build Date UTC : 2025-07-18 01:17:44.562363+00:00
 -->
