@@ -25,6 +25,7 @@ env.SCRIPTS = "${PIXI_PROJECT_ROOT}/workflow/scripts"
 
 [dependencies]
 python = ">=3.12"
+xgboost = "*"
 ipython = "*"
 ipykernel = "*"
 jupyterlab = "*"
@@ -38,9 +39,15 @@ r-remotes = "*"
 # CRAN packages with versions (when available via conda)
 r-hmisc = "==5.1_3"
 r-circlize = "==0.4.16"
-r-enrichr = "==3.2"
-r-forestplot = "==3.1.3"
-r-meta = "==7.0_0"
+r-xgboost = "==3.0.2"
+r-dplyr = "==1.1.4"
+r-ggplot2 = "==3.5.2"
+r-magick = "==2.8.6"
+r-readr = "==2.1.5"
+r-proc = "==1.18.5"
+r-stringr = "==1.5.1"
+r-reticulate = "==1.42.0"
+r-SparkR = "==4.0.0"
 
 [tasks.postInstall]
 cmd = [
