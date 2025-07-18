@@ -1,52 +1,38 @@
-# Results Directory
+## Results Directory
 
-## Purpose
+This directory contains the output files from all stages of the **distributed multivariable analysis pipeline**, including:
 
-This directory stores the **output files** from your analyses, including:
+- Signature scoring outputs (e.g., GSVA, ssGSEA)
+- Multivariable model training results (e.g., XGBoost models)
+- Feature importance rankings
+- Evaluation metrics (e.g., AUC, ROC)
+- Model validation results across external datasets
 
-- Final data matrices
-- Statistical analysis results
-- Summary tables
-- If using other software for organizing figures/tables, consider including references to them
-in the repository documentation so they dont get lost.
-  - tip: [draw.io](https://app.diagrams.net/) lets you version control diagrams
-  in git, and you can export them as images for publication.
+The result files are organized based on their role in the distributed pipeline and reflect different stages of model development and validation.
 
-## Documentation Best Practices
+---
 
-While detailed documentation is always valuable, results should be traceable through your analysis code. Make sure that:
-
-- Your analysis code (in `workflow/scripts` or `workflow/notebooks`) clearly documents how results were generated
-- Results files have descriptive names that indicate what they contain
-  - i.e use `gene_expression_analysis_results.csv` instead of `results.csv`
-  - i.e use `2025-05-08_features-summary.png` instead of `summary.png`
-- **Focus on versioning the code that generates the results rather than the results themselves**
-
-## Git Synchronization Notice
-
-**⚠️ FILES IN THIS DIRECTORY ARE NOT SYNCHRONIZED WITH GIT ⚠️**
-
-Result files can vary in size but are often too large for version control. Instead:
-
-- Only the directory structure and this README are tracked
-- Smaller result files might be suitable for Git, but consider using other means for larger files
-- **Focus on versioning the code that generates the results rather than the results themselves**
-
-## Organization Recommendations
-
-Consider organizing results by:
-
-- Analysis date
-- Analysis type
-- Project milestone
-- Figure/table number (if results directly correspond to publication elements)
-
-Example structure:
+## Directory Structure
 
 ```console
-/results/pathway_analysis/
-/results/figures/
-/results/tables/
+/results/
+├── local/            # Results from individual centers (trained XGBoost models)
+│   └── local_json/
+│
+├── global/           # Aggregated global model from local models
+│   ├── global_xgb_model.json
+│   └── global_xgb_model.model
+│
+└── validation/       # Independent validation results on private cohorts and figures
+    └── score/
+  
 ```
 
-Remember that properly organized results make it easier to find what you need when writing papers or preparing presentations!
+---
+
+## Notes
+
+- `local/` folders contain individually trained models per dataset using SparkR + XGBoost with grid search.
+- `global/` contains the aggregated model using tree-based bagging across local models.
+- `validation/` includes model performance on independent, private datasets not used in training. 
+- No patient-level data is included; all outputs are de-identified and suitable for sharing and publication.
