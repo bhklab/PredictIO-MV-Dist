@@ -2,73 +2,50 @@
 
 ## Overview
 
-This section should document all data sources used in your project.
-Proper documentation ensures reproducibility and helps others
-understand your research methodology.
+This document describes all **Immuno-Oncology (IO)** and **RNA-based signature** datasets used throughout the distributed univariable analysis pipeline. Complete documentation ensures **reproducibility**, proper attribution, and transparency across all collaborating centers.
 
-## How to Document Your Data
+---
 
-For each data source, include the following information:
+## Immuno-Oncology Data Sources
 
-### 1. External Data Sources
+### RNA-Seq and Clinical Data
 
-- **Name**: Official name of the dataset
-- **Version/Date**: Version number or access date
-- **URL**: Link to the data source
-- **Access Method**: How the data was obtained (direct download, API, etc.)
-- **Access Date**: When the data was accessed/retrieved
-- **Data Format**: Format of the data (FASTQ, DICOM, CSV, etc.)
-- **Citation**: Proper academic citation if applicable
-- **License**: Usage restrictions and attribution requirements
+- **Name**: Immune Checkpoint Blockade - RNA-Seq, and Clinical data
+- **URL**: [https://www.orcestra.ca/clinical_icb](https://www.orcestra.ca/clinical_icb)
+- **Access Method**: Direct download or programmatic retrieval via API (if applicable)
+- **Data Format**: MultiAssayExperiment and SummarizedExperiment in R (Bioconductor)
+- **Citation**: [Bareche, Y., Kelly, D., Abbas-Aghababazadeh, F. et al., Annals of Oncology 2022](https://pubmed.ncbi.nlm.nih.gov/36055464/)
 
-Example:
+### Signatures Platform
 
-```markdown
-## TCGA RNA-Seq Data
+- **Name**: SignatureSets: An R Package for RNA-Based Immuno-Oncology Signatures
+- **Version**: v1.0
+- **URL - IO Signatures**: [bhklab/SignatureSets](https://github.com/bhklab/SignatureSets) 
+- **URL - TME Signatures** — [IOBR Project](https://github.com/IOBR/IOBR)  
+- **Access Method**: Direct download or programmatic retrieval via API (if applicable)
+- **Data Format**: rda, CSV (signatures, metadata)
+- **Citation**: [Bareche, Y., Kelly, D., Abbas-Aghababazadeh, F. et al., Annals of Oncology 2022](https://pubmed.ncbi.nlm.nih.gov/36055464/)
 
-- **Name**: The Cancer Genome Atlas RNA-Seq Data
-- **Version**: Data release 28.0 - March 2021
-- **URL**: https://portal.gdc.cancer.gov/
-- **Access Method**: GDC Data Transfer Tool
-- **Access Date**: 2021-03-15
-- **Citation**: The Cancer Genome Atlas Network. (2012). Comprehensive molecular portraits of human breast tumours. Nature, 490(7418), 61-70.
-- **License**: [NIH Genomic Data Sharing Policy](https://sharing.nih.gov/genomic-data-sharing-policy)
-```
+---
 
-### 2. Internal/Generated Data
 
-- **Name**: Descriptive name of the dataset
-- **Creation Date**: When the data was generated
-- **Creation Method**: Brief description of how the data was created
-- **Input Data**: What source data was used
-- **Processing Scripts**: References to scripts/Github Repo used to generate this data
+## Key Clinical Variables
 
-Example:
+| Variable            | Description                                       | Format   | Example      |
+|---------------------|---------------------------------------------------|----------|--------------|
+| patientid           | Unique patient identifier                         | string   | GSE12345_P01 |
+| age                 | Age at diagnosis                                  | integer  | 63           |
+| sex                 | Biological sex                                    | factor   | M/F          |
+| cancer_type         | Primary cancer type                               | string   | Melanoma     |
+| histo               | Histological classification                       | string   | Melanoma     |
+| treatment_type      | IO therapy category                               | string   | PD-1/PD-L1   |
+| stage               | Tumor stage at diagnosis                          | string   | Stage II     |
+| recist              | RECIST clinical response                          | factor   | CR/PR/SD/PD  |
+| response            | Clinical benefit status (e.g., response)          | string   | R/NR         |
+| survival_time_os    | Overall survival time (months)                    | numeric  | 21.3         |
+| event_occurred_os   | Overall survival event (1 = death)                | binary   | 1            |
+| survival_time_pfs   | Progression-free survival time (months)           | numeric  | 18.2         |
+| event_occurred_pfs  | Progression-free survival event (1 = progression) | binary   | 1            |
+| survival_unit       | Unit of survival time                             | string   | months       |
 
-```markdown
-## Processed RNA-Seq Data
-- **Name**: Processed RNA-Seq Data for TCGA-BRCA
-- **Creation Date**: 2021-04-01
-- **Creation Method**: Processed using kallisto and DESeq2
-- **Input Data**: FASTQ Data obtained from the SRA database
-- **Processing Scripts**: [GitHub Repo](https://github.com/tcga-brca-rnaseq)
-```
-
-### 3. Data Dictionary
-
-For complex datasets, include a data dictionary that explains:
-
-| Column Name | Data Type | Description | Units | Possible Values |
-|-------------|-----------|-------------|-------|-----------------|
-| patient_id  | string    | Unique patient identifier | N/A | TCGA-XX-XXXX format |
-| age         | integer   | Patient age at diagnosis | years | 18-100 |
-| expression  | float     | Gene expression value | TPM | Any positive value |
-
-## Best Practices
-
-- Store raw data in `data/rawdata/` and never modify it
-- Store processed data in `data/procdata/` and all code used to generate it should be in `workflow/scripts/`
-- Document all processing steps
-- Track data provenance (where data came from and how it was modified)
-- Respect data usage agreements and licenses!
-    This is especially important for data that should not be shared publicly
+---
