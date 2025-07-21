@@ -109,4 +109,4 @@ Full documentation will be available in the `docs/` folder or via published GitH
 Start by downloading and organizing the raw input datasets as described in [`data/rawdata/README.md`](https://github.com/bhklab/PredictIO-MV-Dist/blob/main/data/rawdata/README.md).
 
 For data download and processing, please refer to the univariable repository:  
-🔗 [https://github.com/bhklab/PredictIO-UV-Dist](https://github.com/bhklab/PredictIO-UV-Dist)
+🔗 [https://github.com/bhklab/PredictIO-MV-Dist](https://github.com/bhklab/PredictIO-MV-Dist)
