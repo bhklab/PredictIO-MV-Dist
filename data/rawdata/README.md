@@ -28,6 +28,8 @@ This dataset includes:
 
 These files are used as node-level input for multivariable modeling and feature scoring.
 
+Public datasets used in this section, along with their PMIDs and source links, are summarized in [Supplementary Table S1: RNA-based IO datasets](https://docs.google.com/spreadsheets/d/1qN7ix5pjFQA4I9lDW2TTGl_pM8_y4MQH/edit?gid=547447763#gid=547447763). Note that some listed datasets (e.g., Hartwig, IMmotion150) are private and require data access agreements.
+
 ---
 
 ### Private Validation datasets
