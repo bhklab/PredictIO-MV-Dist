@@ -15,7 +15,7 @@ Each file typically includes:
 
 ## How to Generate Processed Data
 
-To prepare the `.rda` files from raw inputs, follow these steps:
+To prepare the `.rda` files from raw inputs using the UV distributed pipeline, follow the steps outlined under the `data/procdata` directory in the [UV distributed pipeline](https://github.com/bhklab/PredictIO-UV-Dist) repository:
 
 ### 1. Download Raw Data
 
