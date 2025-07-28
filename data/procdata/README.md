@@ -107,7 +107,7 @@ To ensure consistency across datasets with varying cancer type annotations:
 
 **Example:**
 
-- Original terms like `mel`, `SKCM`, or `melanoma` are all mapped to:
+- Original terms like `SKCM`, or `melanoma` are all mapped to:
   ```
   Melanoma
   ```
