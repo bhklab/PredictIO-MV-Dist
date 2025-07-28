@@ -2,7 +2,7 @@
 
 ## Purpose
 
-This directory stores **intermediate processed data objects** generated from raw RNA-seq and clinical inputs. These `.rda` files are structured for downstream analyses such as signature scoring, survival modeling, and meta-analysis.
+This directory stores **intermediate processed data objects** generated from raw RNA-seq and clinical inputs. These `.rda` files are structured support multivariable analyses such as signature scoring and predicting IO therapy response using XGBoost modeling.
 
 Each file typically includes:
 
@@ -97,9 +97,29 @@ To ensure consistency across datasets with varying annotation styles:
 
 This harmonization ensures consistent treatment grouping across datasets for downstream meta-analysis.
 
+---
+
+## Note on Cancer Type Harmonization
+
+To ensure consistency across datasets with varying cancer type annotations:
+
+- Each sample is assigned a standardized **OncoTree Level 1** cancer type label.
+
+**Example:**
+
+- Original terms like `mel`, `SKCM`, or `melanoma` are all mapped to:
+  ```
+  Melanoma
+  ```
+
+This cancer-type harmonization enables consistent aggregation and comparison across datasets during meta-analysis.
+
+---
+
 ## Create Train Set Files
 
 Once all processed `.rda` files are ready, use the following R script to generate training feature matrices:
 
-`workflow/scripts/Create_train_set.r`
-
+```bash
+workflow/scripts/Create_train_set.r
+```
