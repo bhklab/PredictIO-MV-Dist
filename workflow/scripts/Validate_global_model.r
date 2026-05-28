@@ -4,10 +4,13 @@
 # multiple external test datasets and benchmarks its performance 
 # against local models and pan-cancer PredictIO signature models.
 #
-#   - Loads four independent validation datasets
-#   - Applies the global XGBoost model to each dataset
-#   - Compares performance with local models and pan-cancer PredictIO signature 
-#   - Outputs evaluation metrics (e.g., AUC)
+#   - Loads independent external validation datasets
+#   - Applies the distributed XGBoost model to each dataset
+#   - Compares performance with local models and the pan-cancer PredictIO signature
+#   - Computes discrimination performance metrics (e.g., AUC)
+#   - Performs calibration analyses using calibration curves,
+#     Brier scores, and calibration slopes
+#   - Generates publication-quality ROC and calibration plots
 # -----------------------------------------------------------
 ##############################################################
 ## Load libraries
@@ -231,7 +234,7 @@ auc_df <- bind_rows(lapply(all_aucs, function(res) {
 }))
 
 ##########################################################################
-# Run Barrier score/curve for one dataset
+# Run callibration analyses 
 ##########################################################################
 files <- list.files(dir_pred_in)
 
