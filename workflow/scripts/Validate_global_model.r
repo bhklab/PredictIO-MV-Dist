@@ -26,8 +26,9 @@ source("workflow/scripts/Compute_GeneSigScore.r")
 ## Set up working directory 
 #############################################################
 dir_model_in <- 'data/results/global'
-dir_data_in <- 'data/procdata/validation' # data_dir <- "Validation"  and score_dir <- "Validation/scores/"
+dir_data_in <- 'data/procdata/validation' 
 dir_sig_in <- 'data/results/validation/score'
+dir_pred_in <- 'data/results/validation/pred'
 dir_out <- 'data/results/validation'
 
 #############################################################
@@ -232,29 +233,21 @@ auc_df <- bind_rows(lapply(all_aucs, function(res) {
 ##########################################################################
 # Run Barrier score/curve for one dataset
 ##########################################################################
-files <- list.files('C:/PredictIO-MV-Dist/data/results/validation/pred')
+files <- list.files(dir_pred_in)
+
 res <- lapply(1:length(files), function(k){
-
-read.csv(file = file.path('C:/PredictIO-MV-Dist/data/results/validation/pred', files[k]))
-
+read.csv(file = file.path(dir_pred_in, files[k]))
 })
-
 res <- do.call(rbind, res)
 
-res$prob_distributed <- pmin(
-  pmax(res$prob_distributed, 1e-8),
-  1 - 1e-8
-)
-
+res$prob_distributed <- pmin(pmax(res$prob_distributed, 1e-8),1 - 1e-8)
 cohorts <- unique(res$study_name)
 
 for(cohort in cohorts){
 
-  # subset cohort
   tmp <- res %>%
     filter(study_name == cohort)
 
-  # calibration bins
   calibration_df <- tmp %>%
     mutate(bin = ntile(prob_distributed, 5)) %>%
     group_by(bin) %>%
@@ -264,7 +257,6 @@ for(cohort in cohorts){
       .groups = "drop"
     )
 
-  # calibration statistics
   calPerf <- val.prob.ci.2(
     p = tmp$prob_distributed,
     y = tmp$true_label
@@ -274,68 +266,54 @@ for(cohort in cohorts){
   brier <- round(calPerf$stats["Brier"], 2)
   slope <- round(calPerf$stats["Slope"], 2)
 
-  # sample size
   n_patients <- nrow(tmp)
 
-  # generate plot
   p <- ggplot(
     calibration_df,
     aes(
       x = mean_pred,
       y = obs_rate
     )
-  ) +
-
-    geom_smooth(
+  ) + geom_smooth(
       method = "loess",
       se = TRUE,
       color = "#B22222",
       fill = "#F4A6A6",
       linewidth = 1.2
-    ) +
-
-    geom_abline(
+    ) + geom_abline(
       intercept = 0,
       slope = 1,
       linetype = "dashed",
       color = "grey60",
       linewidth = 0.8
-    ) +
-
-    coord_equal() +
-
+    ) + coord_equal() +
     xlim(0, 1) +
     ylim(0, 1) +
-
     annotate(
       "text",
       x = 0.65,
       y = 0.18,
       hjust = 0,
-      size = 3,
+      size = 2,
       label = paste0(
         "AUC = ", auc,
         "\nBrier = ", brier,
         "\nSlope = ", slope
       )
-    ) +
-
-    labs(
+    ) + labs(
       title = paste0(
         gsub("_", ": ", cohort),
         " (N = ", n_patients, ")"
       ),
       x = "Predicted Probability",
       y = "Observed Rate"
-    ) +
-
-    theme(
-      axis.text.x = element_text(size = 8),
-      axis.text.y = element_text(size = 8),
-      axis.title = element_text(size = 9),
+    ) + theme(
+      axis.text.x = element_text(size = 6),
+      axis.text.y = element_text(size = 6),
+      axis.title = element_text(size = 7),
       plot.title = element_text(
         hjust = 0.5,
-        size = 10,
+        size = 7,
         face = "bold"
       ),
       panel.grid.major = element_blank(),
@@ -346,19 +324,34 @@ for(cohort in cohorts){
       legend.position = "none"
     )
 
-  # clean file name
-  file_name <- paste0(
-    gsub(" ", "_", cohort),
-    "_calibration_plot.pdf"
-  )
+ # clean file names
+file_name_pdf <- paste0(
+  gsub(" ", "_", cohort),
+  "_calibration_plot.pdf"
+)
 
-  # save figure
-  ggsave(
-    filename = file.path(dir_out, file_name),
-    plot = p,
-    width = 4,
-    height = 4
-  )
+file_name_jpeg <- paste0(
+  gsub(" ", "_", cohort),
+  "_calibration_plot.jpeg"
+)
 
-  print(p)
+# save PDF
+ggsave(
+  filename = file.path(dir_out, file_name_pdf),
+  plot = p,
+  width = 2.5,
+  height = 2.5
+)
+
+# save JPEG
+ggsave(
+  filename = file.path(dir_out, file_name_jpeg),
+  plot = p,
+  width = 2.5,
+  height = 2.5,
+  dpi = 300
+)
+
+print(p)
+
 }
